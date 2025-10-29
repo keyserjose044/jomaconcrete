@@ -1,6 +1,5 @@
 {
   "name": "jomaconcrete",
-  "description": "Joma Concrete — static business site built with Astro, deployed via GitHub Pages.",
   "private": true,
   "type": "module",
   "scripts": {
