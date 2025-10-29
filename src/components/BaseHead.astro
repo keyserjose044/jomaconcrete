@@ -1,0 +1,70 @@
+---
+// Import the global.css file here so that it is included on
+// all pages through the use of the <BaseHead /> component.
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string; // path or absolute URL
+}
+
+const { title, description, image = '/blog-placeholder-1.jpg' } = Astro.props;
+
+// Build absolute URLs for canonical + social tags
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const absoluteImageURL = new URL(image, Astro.site);
+
+// For reliable favicon paths on GitHub Pages or subpaths
+const base = import.meta.env.BASE_URL || '/';
+---
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Favicon & app icons -->
+<link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+<link rel="alternate icon" type="image/png" href={`${base}favicon.png`} />
+<link rel="shortcut icon" href={`${base}favicon.ico`} />
+<link rel="apple-touch-icon" href={`${base}favicon.png`} />
+<meta name="theme-color" content="#ffffff" />
+
+<!-- Font preloads (prefer woff2 if available) -->
+<link rel="preload" href={`${base}fonts/atkinson-regular.woff2`} as="font" type="font/woff2" crossorigin />
+<link rel="preload" href={`${base}fonts/atkinson-bold.woff2`} as="font" type="font/woff2" crossorigin />
+<!-- fallback if only .woff exists
+<link rel="preload" href={`${base}fonts/atkinson-regular.woff`} as="font" type="font/woff" crossorigin />
+<link rel="preload" href={`${base}fonts/atkinson-bold.woff`} as="font" type="font/woff" crossorigin />
+-->
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL.toString()} />
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+
+<!-- Mobile polish -->
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0b0b" />
+<meta name="color-scheme" content="light dark" />
+
+<!-- Robots -->
+<meta name="robots" content="index,follow" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalURL.toString()} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={absoluteImageURL.toString()} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalURL.toString()} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={absoluteImageURL.toString()} />

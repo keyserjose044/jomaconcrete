@@ -1,0 +1,38 @@
+---
+const today = new Date();
+---
+
+<footer>
+  <div class="footer-links">
+    <p>Contact: <a href="mailto:smartstuffstays@gmail.com">lifeloggerz.official@gmail.com</a></p>
+  </div>
+  <p class="copyright">&copy; {today.getFullYear()} LifeLoggerz. All rights reserved.</p>
+</footer>
+
+<style>
+  footer {
+    padding: 2em 1em 6em;
+    background: linear-gradient(var(--gray-gradient)) no-repeat;
+    color: rgb(var(--gray));
+    text-align: center;
+  }
+
+  .footer-links {
+    margin-bottom: 0.5em;
+  }
+
+  .footer-links a {
+    color: rgb(var(--gray));
+    text-decoration: underline;
+    font-weight: 500;
+  }
+
+  .footer-links a:hover {
+    color: rgb(var(--gray-dark));
+  }
+
+  .copyright {
+    font-size: 0.9em;
+    opacity: 0.8;
+  }
+</style>
