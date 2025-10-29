@@ -4,8 +4,6 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch:
-  schedule:
-    - cron: "23 5 * * *"  # daily rebuild
 
 permissions:
   contents: read
@@ -19,9 +17,6 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      RAINDROP_TOKEN: ${{ secrets.RAINDROP_TOKEN }}
-      RAINDROP_COLLECTION_BOOKS_ID: ${{ secrets.RAINDROP_COLLECTION_BOOKS_ID }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -34,21 +29,6 @@ jobs:
 
       - name: Install deps
         run: npm ci
-
-      - name: 🔎 Debug env presence
-        run: |
-          if [ -z "${RAINDROP_TOKEN}" ]; then echo "❌ RAINDROP_TOKEN missing"; exit 1; else echo "✅ RAINDROP_TOKEN present"; fi
-          if [ -z "${RAINDROP_COLLECTION_BOOKS_ID}" ]; then echo "❌ RAINDROP_COLLECTION_BOOKS_ID missing"; exit 1; else echo "✅ RAINDROP_COLLECTION_BOOKS_ID present"; fi
-
-      - name: 🔎 Show homepage file CI is using
-        run: |
-          echo "---- Files in src/pages ----"
-          ls -la src/pages
-          echo "---- First 25 lines of src/pages/index.astro ----"
-          sed -n '1,25p' src/pages/index.astro || true
-
-      - name: 🧹 Clean caches
-        run: rm -rf node_modules/.astro dist .astro
 
       - name: Build
         run: npm run build
