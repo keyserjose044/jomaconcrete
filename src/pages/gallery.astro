@@ -1,1 +1,16 @@
-sdfs
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Add project images to /public/images and list them here:
+const photos = [
+  '/images/job1.jpg',
+  '/images/job2.jpg',
+  '/images/job3.jpg'
+];
+---
+<BaseLayout title="Gallery | Joma Concrete">
+  <h1>Recent Work</h1>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;">
+    {photos.map((src) => <img src={src} alt="Concrete project" style="width:100%;border-radius:10px;" loading="lazy" />)}
+  </div>
+</BaseLayout>
