@@ -1,8 +1,123 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Change this to an actual image you have (or remove the hero block if you prefer)
+const hero = '/images/hero.jpg';
 ---
-<BaseLayout title="About | Joma Concrete">
-  <h1>About Joma Concrete</h1>
-  <p>We’re a family-run concrete contractor serving DFW for more than a decade. We focus on quality, cleanliness, and on-time delivery.</p>
-  <p>Owner: Jose Marquez — (214) 298-6681</p>
+
+<BaseLayout title="About | Joma Concrete LLC" image={hero}>
+  <!-- Hero with background + overlay -->
+  <section class="hero" aria-label="About Joma Concrete">
+    <div class="overlay"></div>
+    <div class="hero-inner">
+      <h1>Experienced</h1>
+      <p class="lede">
+        Founded in 2019 by <strong>Jose Marquez</strong>, a construction foreman with
+        <strong>30+ years of experience</strong> in commercial concrete work.
+        <strong>JOMA Concrete</strong> is a trusted construction company serving the
+        Dallas–Fort Worth area and beyond.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="/contact">Request a Free Estimate</a>
+        <a class="btn btn-outline" href="tel:12142986681">Call (214) 298-6681</a>
+      </div>
+    </div>
+    <img class="hero-bg" src={hero} alt="" decoding="async" loading="eager" />
+  </section>
+
+  <!-- Optional image pair (use your real filenames or delete this block) -->
+  <section class="pair">
+    <figure>
+      <img src="/images/2ndchancejob.png" alt="ADA handicap ramps at 2nd Chance Baptist Church" loading="lazy" />
+      <figcaption>ADA handicap ramps poured at 2nd Chance Baptist Church</figcaption>
+    </figure>
+    <figure>
+      <img src="/images/retainingwallbtc.png" alt="8 ft retaining wall and pillars at Big Town Concrete Plant" loading="lazy" />
+      <figcaption>8-ft retaining wall and pillars poured at Big Town Concrete Plant</figcaption>
+    </figure>
+  </section>
+
+  <!-- Company blurb (kept short and scannable) -->
+  <section class="content">
+    <h2>Who We Are</h2>
+    <p>
+      We’re a family-run concrete contractor providing reliable commercial and residential
+      flatwork across the DFW Metroplex. We prioritize clean job sites, clear communication,
+      and on-time delivery.
+    </p>
+
+    <div class="grid">
+      <div>
+        <h3>What We Do</h3>
+        <ul>
+          <li>Driveways &amp; sidewalks</li>
+          <li>Slabs &amp; foundations</li>
+          <li>Ramps &amp; curb ramps (ADA/TAS aware)</li>
+          <li>Patios &amp; walkways</li>
+          <li>Repairs &amp; replacements</li>
+          <li>Commercial flatwork</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p><strong>Owner:</strong> Jose Marquez</p>
+        <p><a href="tel:12142986681">(214) 298-6681</a></p>
+        <p><a href="mailto:josemarquez044@gmail.com">josemarquez044@gmail.com</a></p>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .hero {
+      position: relative;
+      isolation: isolate;
+      border-radius: 12px;
+      overflow: hidden;
+      min-height: 360px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 28px;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover;
+      filter: saturate(1.05);
+    }
+    .overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.45));
+      z-index: 0;
+    }
+    .hero-inner {
+      position: relative; z-index: 1;
+      max-width: 900px; padding: 32px 16px; text-align: center; color: #fff;
+    }
+    .hero h1 {
+      margin: 0 0 8px; font-size: clamp(2rem, 6vw, 3rem); line-height: 1.1;
+    }
+    .lede {
+      margin: 0 auto 16px; max-width: 70ch; font-size: clamp(1rem, 2.6vw, 1.25rem);
+    }
+    .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+
+    .btn { display:inline-block; padding:12px 18px; border-radius:10px; font-weight:600; text-decoration:none; }
+    .btn-primary { background:#111827; color:#fff; }
+    .btn-outline { border:1px solid #111827; color:#111827; background:#fff; }
+
+    .pair {
+      display: grid; grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 16px; margin-bottom: 24px;
+    }
+    .pair img { width:100%; height:260px; object-fit:cover; border-radius:12px; display:block; }
+    .pair figcaption { margin-top:6px; font-size:.95rem; opacity:.75; }
+
+    .content { margin-top: 8px; }
+    .grid { display:grid; grid-template-columns: 2fr 1fr; gap: 28px; }
+    .grid h3 { margin-top: 0.25rem; }
+
+    @media (max-width: 850px) {
+      .pair { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </BaseLayout>
