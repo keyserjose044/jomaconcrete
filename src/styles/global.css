@@ -8,22 +8,44 @@
   • Mobile-friendly fluid widths
   • Works for both marketing & gallery pages
 */
+/*
+  Joma Concrete LLC — Global Stylesheet
+  Adapted from LifeLoggerz / Bear Blog base by ChatGPT (2025)
+  ----------------------------------------
+  • Clean typography for readability
+  • Neutral concrete-inspired palette
+  • Mobile-friendly fluid widths
+  • Works for both marketing & gallery pages
+*/
 
 /* ---------- ROOT VARIABLES ---------- */
 :root {
-  --brand: #1c1f26;        /* deep charcoal */
   --accent: #c93f1d;       /* warm construction orange/red */
   --accent-dark: #962c12;
+  --brand: #1c1f26;        /* deep charcoal */
+
+  --black: 15, 18, 25;
+  --gray: 96, 115, 159;
+  --gray-light: 229, 233, 240;
+  --gray-dark: 34, 41, 57;
+
   --bg: #ffffff;
   --fg: #1c1f26;
   --gray: #60646e;
   --gray-light: #e4e6ea;
   --gray-dark: #2c2f36;
+
   --radius: 10px;
+  --max-width: 1100px;
+
   --shadow:
     0 1px 2px rgba(0,0,0,0.08),
     0 4px 8px rgba(0,0,0,0.08);
-  --max-width: 1100px;
+
+  --box-shadow:
+    0 2px 6px rgba(var(--gray), 25%),
+    0 8px 24px rgba(var(--gray), 33%),
+    0 16px 32px rgba(var(--gray), 33%);
 }
 
 /* Reserve scrollbar space to avoid layout shift */
@@ -35,14 +57,6 @@ html {
 @font-face {
   font-family: "Atkinson";
   src: url("/fonts/atkinson-regular.woff") format("woff");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Atkinson";
-  src: url("/fonts/atkinson-bold.woff") format("woff");
-  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
@@ -57,6 +71,8 @@ body {
   font-size: 18px;
   line-height: 1.7;
   text-align: left;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 main {
@@ -69,41 +85,34 @@ main {
 h1, h2, h3, h4, h5, h6 {
   color: var(--brand);
   line-height: 1.2;
-  margin: 0 0 0.6em;
-  font-weight: 700;
+  margin: 0 0 0.5rem 0;
 }
+
 h1 { font-size: clamp(2rem, 5vw, 2.8rem); }
 h2 { font-size: clamp(1.6rem, 4.2vw, 2.2rem); }
 h3 { font-size: clamp(1.3rem, 3.6vw, 1.8rem); }
 
-/* ---------- TEXT ---------- */
 p { margin-bottom: 1.1em; }
 strong, b { font-weight: 700; }
+
 a {
   color: var(--accent);
   text-decoration: none;
-  transition: color .2s ease;
+  transition: color 0.2s ease;
 }
 a:hover {
   color: var(--accent-dark);
 }
+
 ul, ol {
   padding-left: 1.2em;
   margin-bottom: 1em;
 }
 
-/* ---------- LAYOUT HELPERS ---------- */
 .container {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 1em;
-}
-.grid {
-  display: grid;
-  gap: 16px;
-}
-.grid.auto {
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 }
 
 /* ---------- MEDIA ---------- */
@@ -113,6 +122,7 @@ img, video {
   border-radius: var(--radius);
   display: block;
 }
+
 figure { margin: 0 0 1.5em; }
 
 /* ---------- CODE & BLOCKQUOTE ---------- */
@@ -122,17 +132,25 @@ code {
   border-radius: 4px;
   font-size: 0.95em;
 }
+
 pre {
-  background: var(--gray-light);
-  padding: 1.25em;
+  padding: 1.5em;
   border-radius: var(--radius);
+  background: var(--gray-light);
   overflow-x: auto;
 }
+
 blockquote {
   border-left: 4px solid var(--accent);
   padding-left: 1em;
+  margin: 0 0 1.5em;
   color: var(--gray-dark);
   font-style: italic;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--gray-light);
 }
 
 /* ---------- BUTTONS ---------- */
@@ -144,6 +162,7 @@ blockquote {
   text-decoration: none;
   transition: all 0.25s ease;
 }
+
 .btn-primary {
   background: var(--accent);
   color: #fff;
@@ -170,6 +189,7 @@ header {
   top: 0;
   z-index: 10;
 }
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -178,15 +198,18 @@ header {
   max-width: var(--max-width);
   margin: 0 auto;
 }
+
 .navbar a.brand {
   font-size: 1.4rem;
   font-weight: 700;
   color: var(--brand);
 }
+
 .navbar nav {
   display: flex;
   gap: 1rem;
 }
+
 .navbar nav a {
   color: var(--brand);
   font-weight: 500;
@@ -214,79 +237,61 @@ footer a {
   font-weight: 600;
 }
 
-/* ---------- RESPONSIVE ---------- */
-@media (max-width: 768px) {
-  body { font-size: 17px; }
-  main { padding: 2em 1em; }
-  .navbar { flex-wrap: wrap; gap: 0.5em; }
-  .navbar nav {
-    width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.75em;
-  }
-  footer .container { flex-direction: column; text-align: center; }
-}
-
 /* ---------- ACCESSIBILITY ---------- */
 .sr-only {
-  border: 0; clip: rect(1px, 1px, 1px, 1px);
-  height: 1px; width: 1px; margin: -1px; padding: 0;
-  overflow: hidden; position: absolute !important;
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  position: absolute !important;
   clip-path: inset(50%);
   white-space: nowrap;
 }
 
-/* ---------- HOMEPAGE ---------- */
-.hero {
-  display: grid;
-  gap: 1.5rem;
-  margin-top: 1rem;
-}
-.hero-image {
-  width: 100%;
-  max-height: 420px;
-  object-fit: cover;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-.hero-text h1 {
-  font-size: clamp(2rem, 6vw, 2.8rem);
-  margin: 0.2em 0;
-}
-.hero-text p {
-  font-size: 1.1rem;
-  max-width: 70ch;
-}
-.cta-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 0.75rem;
-}
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+  body { font-size: 17px; }
+  main { padding: 2em 1em; }
 
-.services {
-  margin-top: 3rem;
-}
-.services h2 {
-  font-size: clamp(1.6rem, 4.5vw, 2.2rem);
-  margin-bottom: 1rem;
-}
-.service-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 0.5rem 1.5rem;
-  max-width: 900px;
-  list-style: none;
-  padding-left: 0;
-}
-.service-list li {
-  padding-left: 1.2em;
-  position: relative;
-}
-.service-list li::before {
-  content: "•";
-  color: var(--accent);
-  position: absolute;
-  left: 0;
+  .navbar {
+    flex-wrap: wrap;
+    gap: 0.5em;
+  }
+
+  .navbar nav {
+    width: 100%;
+    justify-content: center;
+  }
+
+  img, figure, .hero, .section-hero {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin-inline: auto;
+  }
+
+  .grid, .cards, .post-list {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    gap: clamp(12px, 3vw, 20px);
+    justify-items: center;
+  }
+
+  h1 { font-size: clamp(2rem, 7vw, 2.4rem); }
+  h2 { font-size: clamp(1.6rem, 6vw, 2rem); }
+
+  footer .container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  main {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-inline: clamp(16px, 4vw, 24px);
+    box-sizing: border-box;
+  }
 }
