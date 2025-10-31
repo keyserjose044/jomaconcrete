@@ -1,42 +1,153 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-const hero = "/images/hero.jpg"; // Add this image under /public/images
+/* src/pages/index.astro */
+
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Load non-draft posts and sort newest → oldest
+const rawPosts = await getCollection('blog', ({ data }) => data?.draft !== true);
+
+const posts = rawPosts
+  .map((p) => {
+    const raw = p.data?.pubDate;
+    const asDate = raw instanceof Date ? raw : raw ? new Date(raw) : null;
+    const validDate = asDate && !Number.isNaN(asDate.valueOf()) ? asDate : null;
+    return { ...p, _pub: validDate };
+  })
+  .sort((a, b) => (b._pub?.getTime?.() ?? 0) - (a._pub?.getTime?.() ?? 0))
+  .slice(0, 3); // Only show 3 latest posts
+
+const hero = '/images/hero.jpg'; // Path to hero image
 ---
 
 <BaseLayout
   title="Experienced Concrete Expert | Joma Concrete"
-  description="Commercial & residential concrete in the DFW area: slabs, driveways, sidewalks, ramps, and more. Free estimates — call (214) 298-6681."
+  description="Commercial & residential concrete in the DFW area: slabs, driveways, sidewalks, ramps, and more. Free estimates — call 214-298-6681."
   image={hero}
 >
-  <section class="hero">
+  <!-- Hero Section -->
+  <section style="display:grid;gap:20px;">
     <img
       src={hero}
       alt="Freshly finished concrete slab"
-      class="hero-image"
+      style="width:100%;border-radius:12px;object-fit:cover;max-height:420px;"
       loading="eager"
     />
-    <div class="hero-text">
-      <h1>Experienced Concrete Expert</h1>
-      <p>
-        Providing top-quality commercial and residential concrete work in the
-        Dallas–Fort Worth area and beyond.
-      </p>
-      <div class="cta-group">
-        <a href="/contact" class="btn btn-primary">Request a Free Estimate</a>
-        <a href="tel:12142986681" class="btn btn-outline">Call (214) 298-6681</a>
-      </div>
+    <h1 style="font-size:42px;line-height:1.1;margin:0;">Experienced Concrete Expert</h1>
+    <p style="font-size:18px;max-width:70ch;">
+      Providing top-quality commercial and residential concrete work in the Dallas–Fort Worth area and beyond.
+    </p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <a
+        href="/contact"
+        style="padding:12px 18px;border-radius:10px;background:#111827;color:white;text-decoration:none;"
+      >
+        Request a free estimate
+      </a>
+      <a
+        href="tel:12142986681"
+        style="padding:12px 18px;border-radius:10px;border:1px solid #111827;text-decoration:none;"
+      >
+        Call (214) 298-6681
+      </a>
     </div>
   </section>
 
-  <section class="services">
-    <h2>Our Services</h2>
-    <ul class="service-list">
-      <li>Driveways & Sidewalks</li>
-      <li>Slabs & Foundations</li>
-      <li>Ramps & Curb Ramps</li>
-      <li>Patios & Walkways</li>
-      <li>Repairs & Replacements</li>
-      <li>Commercial Flatwork</li>
+  <!-- Services Section -->
+  <section style="margin-top:3rem;">
+    <h2>Services</h2>
+    <ul style="columns:2;max-width:900px;">
+      <li>Driveways & sidewalks</li>
+      <li>Slabs & foundations</li>
+      <li>Ramps & curb ramps</li>
+      <li>Patios & walkways</li>
+      <li>Repairs & replacements</li>
+      <li>Commercial flatwork</li>
     </ul>
   </section>
+
+  <!-- Blog Preview Section -->
+  <section style="margin-top:4rem;">
+    <div style="display:flex; justify-content:space-between; align-items:baseline; gap:1rem;">
+      <h2 style="margin:0;">Latest from the Blog</h2>
+      <a
+        href="/blog"
+        style="font-weight:700; text-decoration:underline; text-underline-offset:3px;"
+      >
+        See all →
+      </a>
+    </div>
+
+    {posts.length === 0 ? (
+      <p>No posts yet. Add some markdown files to <code>src/content/blog/</code>!</p>
+    ) : (
+      <ul class="post-grid">
+        {posts.map((post) => (
+          <li class="card">
+            <a href={`/blog/${post.slug}/`} aria-label={post.data.title}>
+              {post.data.heroImage ? (
+                <img src={post.data.heroImage} alt="" loading="lazy" />
+              ) : null}
+              <h3>{post.data.title}</h3>
+              {post._pub ? (
+                <time datetime={post._pub.toISOString()}>
+                  {post._pub.toLocaleDateString(undefined, {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </time>
+              ) : (
+                <time aria-hidden="true">Undated</time>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+
+  <style>
+    .post-grid {
+      list-style: none;
+      padding: 0;
+      margin: 1.25rem 0 2.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card a {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s ease;
+    }
+
+    .card a:hover {
+      transform: translateY(-4px);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card h3 {
+      margin: 0.75rem 1rem 0.25rem;
+      font-size: 1.25rem;
+    }
+
+    .card time {
+      display: block;
+      margin: 0 1rem 1rem;
+      opacity: 0.7;
+    }
+  </style>
 </BaseLayout>
