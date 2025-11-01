@@ -2,12 +2,12 @@
 /* src/pages/index.astro */
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const hero = '/images/hero.jpg'; // already in /public/images
+const hero = '/images/hero.jpg';
 ---
 
 <BaseLayout
-  title="Experienced Concrete Expert | Joma Concrete"
-  description="Commercial & residential concrete in the DFW area: slabs, driveways, sidewalks, ramps, and more. Free estimates — call 214-298-6681."
+  title="JOMA Concrete LLC | Reliable Concrete Contractor in DFW"
+  description="Professional concrete work across Dallas–Fort Worth — driveways, slabs, patios, ramps, and more. Family-run, 30+ years experience."
   image={hero}
 >
   <!-- Preload hero for faster LCP -->
@@ -15,38 +15,100 @@ const hero = '/images/hero.jpg'; // already in /public/images
     <link rel="preload" as="image" href={hero} />
   </Fragment>
 
-  <!-- ===== HERO (centered, with overlay) ===== -->
-  <section class="hero" aria-label="Joma Concrete — recent slab project">
+  <!-- ===== HERO ===== -->
+  <section class="hero" aria-label="Joma Concrete — recent project">
     <img class="hero-bg" src={hero} alt="" decoding="async" loading="eager" />
     <div class="hero-inner">
       <h1>Experienced Concrete Expert</h1>
       <p class="lede">
-        Providing top-quality commercial and residential concrete work across the
-        Dallas–Fort Worth area and beyond.
+        Providing top-quality commercial and residential concrete work
+        across the Dallas–Fort Worth area and beyond.
       </p>
       <div class="cta-row">
-        <!-- Inverted buttons (Home) -->
-        <a class="btn btn-white" href="/contact">Request a Free Estimate</a>
+        <a class="btn btn-white" href="#contact">Request a Free Estimate</a>
         <a class="btn btn-ghost" href="tel:12142986681">Call (214) 298-6681</a>
       </div>
     </div>
   </section>
 
-  <!-- ===== SERVICES ===== -->
-  <section class="content">
-    <h2>Services</h2>
-    <ul class="cols">
-      <li>Driveways &amp; sidewalks</li>
-      <li>Slabs &amp; foundations</li>
-      <li>Ramps &amp; curb ramps</li>
-      <li>Patios &amp; walkways</li>
-      <li>Repairs &amp; replacements</li>
-      <li>Commercial flatwork</li>
-    </ul>
+  <!-- ===== ABOUT ===== -->
+  <section id="about" class="content">
+    <h2>Who We Are</h2>
+    <p>
+      Founded in 2019 by <strong>Jose Marquez</strong>, a construction
+      foreman with <strong>30 + years of experience</strong> in
+      commercial concrete work, <strong>JOMA Concrete</strong> is a
+      trusted, family-run construction company serving the Dallas–Fort
+      Worth area and nearby cities.
+    </p>
+
+    <div class="grid">
+      <div>
+        <h3>What We Do</h3>
+        <ul>
+          <li>Driveways &amp; sidewalks</li>
+          <li>Slabs &amp; foundations</li>
+          <li>Ramps &amp; curb ramps (ADA / TAS aware)</li>
+          <li>Patios &amp; walkways</li>
+          <li>Repairs &amp; replacements</li>
+          <li>Commercial flatwork</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Why Choose Us</h3>
+        <ul>
+          <li>30 + years experience</li>
+          <li>Family-run &amp; local</li>
+          <li>Licensed &amp; insured</li>
+          <li>Clean job sites &amp; on-time delivery</li>
+          <li>ADA / TAS-compliant ramp work</li>
+        </ul>
+      </div>
+    </div>
   </section>
 
+  <!-- ===== GALLERY TEASER ===== -->
+  <section id="gallery" class="pair">
+    <figure>
+      <img src="/images/2ndchancejob.png" alt="ADA handicap ramps at 2nd Chance Baptist Church" loading="lazy" />
+      <figcaption>ADA handicap ramps at 2nd Chance Baptist Church</figcaption>
+    </figure>
+    <figure>
+      <img src="/images/retainingwallbtc.png" alt="8 ft retaining wall and pillars at Big Town Concrete Plant" loading="lazy" />
+      <figcaption>8 ft retaining wall and pillars at Big Town Concrete Plant</figcaption>
+    </figure>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section id="contact" class="content">
+    <h2>Contact Us</h2>
+    <p>
+      Ready to start your project? Call us directly or send a message to get a free estimate.
+    </p>
+    <div class="contact-grid">
+      <p><strong>Owner:</strong> Jose Marquez</p>
+      <p><a href="tel:12142986681">(214) 298-6681</a></p>
+      <p><a href="mailto:josemarquez044@gmail.com">josemarquez044@gmail.com</a></p>
+      <a class="btn btn-white" href="tel:12142986681">📞 Call Now</a>
+    </div>
+  </section>
+
+  <!-- ===== SMOOTH SCROLL ===== -->
+  <script is:inline>
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest('a[href^="#"]');
+      if (!a) return;
+      const id = a.getAttribute('href').substring(1);
+      const el = document.getElementById(id);
+      if (el) {
+        e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  </script>
+
   <style>
-    /* --- HERO LAYOUT --- */
+    /* === HERO === */
     .hero {
       position: relative;
       isolation: isolate;
@@ -63,19 +125,15 @@ const hero = '/images/hero.jpg'; // already in /public/images
       filter: saturate(1.05);
     }
     .hero::before {
-      /* Slightly cooler overlay so Home looks distinct from About */
       content: "";
       position: absolute; inset: 0;
-      background:
-        linear-gradient(180deg, rgba(8,12,24,.35), rgba(8,12,24,.55));
+      background: linear-gradient(180deg, rgba(8,12,24,.35), rgba(8,12,24,.55));
       z-index: 0;
     }
     .hero-inner {
       position: relative; z-index: 1;
-      max-width: 900px;
-      padding: 32px 16px;
-      text-align: center;
-      color: #fff;
+      max-width: 900px; padding: 32px 16px;
+      text-align: center; color: #fff;
     }
     .hero h1 {
       margin: 0 0 8px;
@@ -84,8 +142,7 @@ const hero = '/images/hero.jpg'; // already in /public/images
       text-shadow: 0 2px 18px rgba(0,0,0,.35);
     }
     .lede {
-      margin: 0 auto 16px;
-      max-width: 70ch;
+      margin: 0 auto 16px; max-width: 70ch;
       font-size: clamp(1rem, 2.6vw, 1.25rem);
       text-shadow: 0 1px 12px rgba(0,0,0,.25);
     }
@@ -94,45 +151,42 @@ const hero = '/images/hero.jpg'; // already in /public/images
       margin-top: 10px;
     }
 
-    /* --- BUTTONS (Home uses inverted scheme) --- */
+    /* === BUTTONS (inverted) === */
     .btn {
       display: inline-block;
       padding: 12px 18px;
       border-radius: 10px;
       font-weight: 600;
       text-decoration: none;
-      transition: transform .12s ease, box-shadow .12s ease, background .12s ease, color .12s ease, border-color .12s ease;
+      transition: all .15s ease;
     }
-    .btn:active { transform: translateY(1px); }
-
-    /* Solid white w/ dark text */
     .btn-white {
       background: #fff; color: #111827;
       box-shadow: 0 8px 24px rgba(0,0,0,.18);
     }
     .btn-white:hover { background: #f3f4f6; }
-
-    /* Transparent with white border/text */
     .btn-ghost {
-      background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.85);
+      background: transparent; color: #fff;
+      border: 1px solid rgba(255,255,255,.85);
       backdrop-filter: saturate(120%) blur(0.5px);
     }
     .btn-ghost:hover { border-color: #fff; color: #fff; }
 
-    /* --- CONTENT --- */
-    .content { margin-top: 1.75rem; }
-    .cols {
-      list-style: disc inside;
-      columns: 2;
-      max-width: 900px;
-      padding: 0;
-      margin: 0.5rem 0 0;
-      gap: 1rem;
+    /* === SECTIONS === */
+    .content { margin-top: 2rem; max-width: 1000px; margin-inline: auto; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 1rem; }
+    .pair {
+      display: grid; grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 16px; margin: 2rem auto; max-width: 1000px;
     }
+    .pair img { width:100%; height:260px; object-fit:cover; border-radius:12px; }
+    .pair figcaption { margin-top:6px; font-size:.95rem; opacity:.75; }
+
+    .contact-grid { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem; }
 
     @media (max-width: 850px) {
-      .hero { min-height: 320px; }
-      .cols { columns: 1; }
+      .grid { grid-template-columns: 1fr; }
+      .pair { grid-template-columns: 1fr; }
     }
   </style>
 </BaseLayout>
