@@ -25,8 +25,9 @@ const hero = '/images/hero.jpg';
         across the Dallas–Fort Worth area and beyond.
       </p>
       <div class="cta-row">
-        <a class="btn btn-white" href="#contact">Request a Free Estimate</a>
-        <a class="btn btn-ghost" href="tel:12142986681">Call (214) 298-6681</a>
+        <!-- CHANGED: match About page buttons -->
+        <a class="btn btn-primary" href="#contact">Request a Free Estimate</a>
+        <a class="btn btn-outline" href="tel:12142986681">Call (214) 298-6681</a>
       </div>
     </div>
   </section>
@@ -89,7 +90,7 @@ const hero = '/images/hero.jpg';
       <p><strong>Owner:</strong> Jose Marquez</p>
       <p><a href="tel:12142986681">(214) 298-6681</a></p>
       <p><a href="mailto:josemarquez044@gmail.com">josemarquez044@gmail.com</a></p>
-      <a class="btn btn-white" href="tel:12142986681">📞 Call Now</a>
+      <a class="btn btn-primary" href="tel:12142986681">📞 Call Now</a>
     </div>
   </section>
 
@@ -151,26 +152,15 @@ const hero = '/images/hero.jpg';
       margin-top: 10px;
     }
 
-    /* === BUTTONS (inverted) === */
+    /* === BUTTONS (match About) === */
     .btn {
-      display: inline-block;
-      padding: 12px 18px;
-      border-radius: 10px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all .15s ease;
+      display:inline-block; padding:12px 18px; border-radius:10px;
+      font-weight:600; text-decoration:none; transition:background .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease;
     }
-    .btn-white {
-      background: #fff; color: #111827;
-      box-shadow: 0 8px 24px rgba(0,0,0,.18);
-    }
-    .btn-white:hover { background: #f3f4f6; }
-    .btn-ghost {
-      background: transparent; color: #fff;
-      border: 1px solid rgba(255,255,255,.85);
-      backdrop-filter: saturate(120%) blur(0.5px);
-    }
-    .btn-ghost:hover { border-color: #fff; color: #fff; }
+    .btn-primary { background:#111827; color:#fff; }
+    .btn-primary:hover { background:#0b1220; }
+    .btn-outline { border:1px solid #111827; color:#111827; background:#fff; }
+    .btn-outline:hover { border-color:#0b1220; color:#0b1220; }
 
     /* === SECTIONS === */
     .content { margin-top: 2rem; max-width: 1000px; margin-inline: auto; }
