@@ -1,17 +1,18 @@
+---
 import { SITE_TITLE } from '../consts';
 const rawBase = import.meta.env.BASE_URL || '/';
 const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
 const link = (p: string = '') => `${base}${p}`;
 const normalize = (s: string = '/'): string => {
-  let out = (s || '/')
-    .replace(/^https?:\/\/[^/]+/, '')
-    .replace(/\/index\.html?$/i, '');
+  let out = (s || '/').replace(/^https?:\/\/[^/]+/, '').replace(/\/index\.html?$/i, '');
   if (out !== '/' && !out.endsWith('/')) out += '/';
   out = out.replace(/\/+$/, '/');
   return out || '/';
 };
 const current = normalize(Astro.url.pathname);
 const isActive = (href: string = '/'): boolean => normalize(href) === current;
+---
+
 <header class="site-header">
   <!-- ===== Desktop ===== -->
   <nav class="desktop-nav">
@@ -22,10 +23,9 @@ const isActive = (href: string = '/'): boolean => normalize(href) === current;
       <a href={link('gallery/')} class={isActive('/gallery/') ? 'active' : ''}>Gallery</a>
       <a href={link('contact/')} class={isActive('/contact/') ? 'active' : ''}>Contact</a>
     </div>
-    <div class="contact-button">
-      <a href="tel:12142986681">(214) 298-6681</a>
-    </div>
+    <div class="contact-button"><a href="tel:12142986681">(214) 298-6681</a></div>
   </nav>
+
   <!-- ===== Mobile ===== -->
   <nav class="mobile-nav">
     <h2 class="brand"><a href={base}>{SITE_TITLE}</a></h2>
@@ -41,6 +41,7 @@ const isActive = (href: string = '/'): boolean => normalize(href) === current;
     </details>
   </nav>
 </header>
+
 <style>
   .site-header{margin:0;padding:0 1rem;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.05);position:sticky;top:0;z-index:50;}
   .desktop-nav{display:flex;align-items:center;justify-content:space-between;gap:.5rem;}
