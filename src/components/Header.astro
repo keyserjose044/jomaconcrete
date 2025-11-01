@@ -1,207 +1,62 @@
----
-/* src/components/Header.astro */
-
-const navLinks = [
-  { name: 'Home', href: '/' },
-  { name: 'About', href: '/#about' },
-  { name: 'Gallery', href: '/#gallery' },
-  { name: 'Contact', href: '/#contact' },
-];
----
-
+import { SITE_TITLE } from '../consts';
+const rawBase = import.meta.env.BASE_URL || '/';
+const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
+const link = (p: string = '') => `${base}${p}`;
+const normalize = (s: string = '/'): string => {
+  let out = (s || '/')
+    .replace(/^https?:\/\/[^/]+/, '')
+    .replace(/\/index\.html?$/i, '');
+  if (out !== '/' && !out.endsWith('/')) out += '/';
+  out = out.replace(/\/+$/, '/');
+  return out || '/';
+};
+const current = normalize(Astro.url.pathname);
+const isActive = (href: string = '/'): boolean => normalize(href) === current;
 <header class="site-header">
-  <div class="container">
-    <a class="logo" href="/">JOMA Concrete LLC.</a>
-
-    <!-- Desktop nav -->
-    <nav class="nav desktop-nav" aria-label="Primary">
-      {navLinks.map((link) => (
-        <a
-          href={link.href}
-          class:list={{ active: Astro.url.pathname === '/' && link.href === '/' }}
-        >
-          {link.name}
-        </a>
-      ))}
-    </nav>
-
-    <a class="call-btn desktop-call" href="tel:12142986681">(214) 298-6681</a>
-
-    <!-- Mobile hamburger -->
-    <button
-      class="hamburger"
-      aria-label="Open menu"
-      aria-controls="mobile-menu"
-      aria-expanded="false"
-    >
-      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-    </button>
-  </div>
-
-  <!-- Mobile menu panel -->
-  <div id="mobile-menu" class="mobile-nav" hidden>
-    <nav class="mobile-list" aria-label="Mobile Primary">
-      {navLinks.map((link) => (
-        <a href={link.href} class="mobile-link">{link.name}</a>
-      ))}
-      <a class="call-btn mobile-call" href="tel:12142986681">📞 Call (214) 298-6681</a>
-    </nav>
-  </div>
+  <!-- ===== Desktop ===== -->
+  <nav class="desktop-nav">
+    <h2 class="brand"><a href={base}>{SITE_TITLE}</a></h2>
+    <div class="internal-links">
+      <a href={link('')} class={isActive('/') ? 'active' : ''}>Home</a>
+      <a href={link('about/')} class={isActive('/about/') ? 'active' : ''}>About</a>
+      <a href={link('gallery/')} class={isActive('/gallery/') ? 'active' : ''}>Gallery</a>
+      <a href={link('contact/')} class={isActive('/contact/') ? 'active' : ''}>Contact</a>
+    </div>
+    <div class="contact-button">
+      <a href="tel:12142986681">(214) 298-6681</a>
+    </div>
+  </nav>
+  <!-- ===== Mobile ===== -->
+  <nav class="mobile-nav">
+    <h2 class="brand"><a href={base}>{SITE_TITLE}</a></h2>
+    <details class="nav-toggle">
+      <summary aria-label="Open menu">☰</summary>
+      <div class="menu-panel">
+        <a href={link('')} class={isActive('/') ? 'active' : ''}>Home</a>
+        <a href={link('about/')} class={isActive('/about/') ? 'active' : ''}>About</a>
+        <a href={link('gallery/')} class={isActive('/gallery/') ? 'active' : ''}>Gallery</a>
+        <a href={link('contact/')} class={isActive('/contact/') ? 'active' : ''}>Contact</a>
+        <a class="contact-btn" href="tel:12142986681">Call (214) 298-6681</a>
+      </div>
+    </details>
+  </nav>
 </header>
-
-<!-- Behavior: toggle, smooth scroll, accessibility -->
-<script is:inline>
-  const header = document.querySelector('.site-header');
-  const btn = header.querySelector('.hamburger');
-  const panel = header.querySelector('#mobile-menu');
-
-  function openMenu() {
-    panel.hidden = false;
-    document.body.classList.add('no-scroll');
-    header.setAttribute('data-open', 'true');
-    btn.setAttribute('aria-expanded', 'true');
-    btn.classList.add('is-open');
-    // focus first link
-    const first = panel.querySelector('a');
-    if (first) first.focus({ preventScroll: true });
-  }
-
-  function closeMenu() {
-    header.removeAttribute('data-open');
-    btn.setAttribute('aria-expanded', 'false');
-    btn.classList.remove('is-open');
-    document.body.classList.remove('no-scroll');
-    // delay to allow fade-out before hiding to keep transitions smooth
-    panel.addEventListener('transitionend', function onT() {
-      if (!header.hasAttribute('data-open')) panel.hidden = true;
-      panel.removeEventListener('transitionend', onT);
-    });
-  }
-
-  btn.addEventListener('click', () => {
-    if (header.hasAttribute('data-open')) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
-  });
-
-  // Close on Escape & backdrop click
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && header.hasAttribute('data-open')) {
-      closeMenu();
-      btn.focus();
-    }
-  });
-  panel.addEventListener('click', (e) => {
-    if (e.target === panel) closeMenu(); // click backdrop
-  });
-
-  // Smooth scroll for anchor links (desktop + mobile)
-  document.addEventListener('click', (e) => {
-    const a = e.target.closest('a[href^="/#"], a[href^="#"]');
-    if (!a) return;
-    const href = a.getAttribute('href');
-    const id = href.startsWith('/#') ? href.split('#')[1] : href.substring(1);
-    const el = document.getElementById(id);
-    if (el) {
-      e.preventDefault();
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      history.replaceState(null, '', '/#' + id);
-      if (header.hasAttribute('data-open')) closeMenu();
-    }
-  });
-</script>
-
 <style>
-  .site-header {
-    position: sticky; top: 0; z-index: 100;
-    background: #fff;
-    border-bottom: 1px solid #e5e7eb;
-  }
-  .container {
-    max-width: 1100px; margin: 0 auto; padding: 14px 16px;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .logo {
-    font-weight: 700; color: #111827; text-decoration: none; font-size: 1.1rem;
-  }
-
-  /* Desktop nav */
-  .desktop-nav { display: flex; gap: 1.5rem; align-items: center; }
-  .desktop-nav a {
-    color: #111827; text-decoration: none; font-weight: 500; position: relative; padding-bottom: 4px;
-    transition: color .2s ease;
-  }
-  .desktop-nav a:hover { color: #2563eb; }
-  .desktop-nav a.active::after {
-    content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
-    background: #2563eb; border-radius: 1px;
-  }
-
-  .call-btn {
-    border: 2px solid #2563eb; color: #2563eb;
-    padding: 8px 14px; border-radius: 9999px; font-weight: 600; text-decoration: none;
-    transition: background .2s ease, color .2s ease;
-  }
-  .call-btn:hover { background: #2563eb; color: #fff; }
-
-  /* Hamburger (hidden on desktop) */
-  .hamburger {
-    display: none;
-    width: 42px; height: 38px;
-    border: 1px solid #e5e7eb; border-radius: 10px;
-    background: #fff; cursor: pointer;
-    align-items: center; justify-content: center; gap: 4px;
-  }
-  .hamburger .bar {
-    display: block; width: 22px; height: 2px; background: #111827;
-    transition: transform .18s ease, opacity .18s ease;
-  }
-  .hamburger.is-open .bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-  .hamburger.is-open .bar:nth-child(2) { opacity: 0; }
-  .hamburger.is-open .bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-
-  /* Mobile nav panel */
-  .mobile-nav {
-    position: fixed; inset: 0; background: rgba(15, 23, 42, .5);
-    backdrop-filter: blur(2px);
-    display: grid; place-items: start center;
-    opacity: 0; pointer-events: none;
-    transition: opacity .18s ease;
-  }
-  .site-header[data-open="true"] + .mobile-nav,
-  .site-header[data-open="true"] ~ .mobile-nav {
-    /* in case of reordering; ensure selector hits the panel */
-  }
-  .site-header[data-open="true"] ~ .mobile-nav,
-  .site-header[data-open="true"] + .mobile-nav {
-    opacity: 1; pointer-events: auto;
-  }
-
-  .mobile-list {
-    margin-top: 70px;
-    width: min(92vw, 420px);
-    background: #fff; color: #111827;
-    border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.2);
-    display: flex; flex-direction: column; gap: 6px;
-    padding: 14px;
-  }
-  .mobile-link {
-    display: block; padding: 14px 12px; border-radius: 10px;
-    text-decoration: none; color: #111827; font-weight: 600;
-  }
-  .mobile-link:hover { background: #f3f4f6; }
-  .mobile-call {
-    margin-top: 8px; text-align: center;
-  }
-
-  /* Responsive visibility */
-  @media (max-width: 860px) {
-    .desktop-nav, .desktop-call { display: none; }
-    .hamburger { display: inline-flex; }
-  }
-
-  /* Prevent body scroll when menu open */
-  .no-scroll { overflow: hidden; }
+  .site-header{margin:0;padding:0 1rem;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.05);position:sticky;top:0;z-index:50;}
+  .desktop-nav{display:flex;align-items:center;justify-content:space-between;gap:.5rem;}
+  .brand{margin:0;font-size:1.1rem;}
+  .brand a{text-decoration:none;color:#0f172a;font-weight:800;}
+  .internal-links{display:flex;gap:.75rem;}
+  .internal-links a{padding:1rem .5rem;text-decoration:none;color:#0f172a;border-bottom:3px solid transparent;font-weight:600;}
+  .internal-links a.active{border-bottom-color:#2337ff;}
+  .contact-button a,.contact-btn{background:transparent;color:#2563eb;border:2px solid #2563eb;padding:.5rem 1.1rem;border-radius:9999px;font-weight:600;text-decoration:none;transition:all .25s;white-space:nowrap;}
+  .contact-button a:hover,.contact-btn:hover{background:#2563eb;color:#fff;}
+  .mobile-nav{display:none;align-items:center;justify-content:space-between;gap:.5rem;position:relative;}
+  .nav-toggle>summary{display:inline-block;border:1px solid rgba(0,0,0,.12);background:#fff;border-radius:.6rem;padding:.45rem .65rem;font-size:1.15rem;line-height:1;cursor:pointer;list-style:none;user-select:none;}
+  .nav-toggle>summary::-webkit-details-marker{display:none;}
+  .menu-panel{position:absolute;left:0;right:0;top:100%;background:#fff;border-top:1px solid rgba(0,0,0,.06);box-shadow:0 8px 24px rgba(0,0,0,.06);display:none;flex-direction:column;padding:.25rem 0;z-index:40;}
+  .nav-toggle[open] .menu-panel{display:flex;}
+  .menu-panel a{padding:.9rem 1rem;text-decoration:none;color:#0f172a;border-bottom:1px solid rgba(0,0,0,.04);}
+  .menu-panel a.active{background:#f5f7fb;font-weight:700;border-left:4px solid #2337ff;}
+  @media (max-width:900px){.desktop-nav{display:none;}.mobile-nav{display:flex;}}
 </style>
