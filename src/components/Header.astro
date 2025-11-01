@@ -5,17 +5,20 @@ const rawBase = import.meta.env.BASE_URL || '/';
 const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
 const link = (p: string = '') => `${base}${p}`;
 
-/** Normalize paths so /about, /about/, and /about/index.html all match */
-const normalize = (s: string = '/'): string =>
-  (s || '/')
-    .replace(/^https?:\/\/[^/]+/, '')   // strip domain if present
-    .replace(/\/index\.html$/, '/')
-    .replace(/\/+$/, '/')               // single trailing slash
-    .replace(/^$/, '/');
+/** Normalize to ALWAYS have a trailing slash (except root) */
+const normalize = (s: string = '/'): string => {
+  let out = (s || '/')
+    .replace(/^https?:\/\/[^/]+/, '') // strip domain if present
+    .replace(/\/index\.html?$/i, ''); // strip trailing index.html
+  if (out !== '/' && !out.endsWith('/')) out += '/'; // ensure trailing slash
+  // collapse multiple slashes at end to one
+  out = out.replace(/\/+$/, '/');
+  return out || '/';
+};
 
 const current = normalize(Astro.url.pathname);
 
-/** Active if normalized href equals current normalized path */
+/** Active if normalized href equals normalized current path */
 const isActive = (href: string = '/'): boolean => normalize(href) === current;
 ---
 
