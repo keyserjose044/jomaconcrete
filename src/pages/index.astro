@@ -245,9 +245,12 @@ const hero = '/images/hero.jpg';
     }
 
     .pair figcaption {
-      margin-top: 6px;
-      font-size: .95rem;
-      opacity: .75;
+      margin-top: 8px;
+      font-size: 1rem;
+      font-weight: 600;   /* ✅ makes captions bold */
+      text-align: center; /* ✅ centers text under images */
+      opacity: 0.85;      /* ✅ a bit more visible */
+      display: block;     /* ✅ ensures proper centering across browsers */
     }
 
     .contact-grid {
@@ -327,6 +330,18 @@ const hero = '/images/hero.jpg';
       .btn-wide {
         width: 90%;
         max-width: 360px;
+      }
+    }
+    
+    /* === ABOUT (Center text on mobile) === */
+    @media (max-width: 850px) {
+      #about {
+        text-align: center;
+      }
+    
+      #about ul {
+        text-align: left;      /* keeps bullet lists aligned for readability */
+        display: inline-block; /* prevents stretching across the screen */
       }
     }
 
