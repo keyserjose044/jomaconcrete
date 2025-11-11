@@ -16,13 +16,19 @@ const hero = '/images/hero.jpg';
   </Fragment>
 
   <!-- ===== HERO ===== -->
-  <section class="hero" aria-label="Joma Concrete — recent project">
-    <img class="hero-bg" src={hero} alt="" decoding="async" loading="eager" />
+  <section class="hero" aria-label="JOMA Concrete — Reliable Concrete Work in DFW">
+    <img
+      class="hero-img"
+      src={hero}
+      alt="JOMA Concrete crew working on a driveway"
+      decoding="async"
+      loading="eager"
+    />
+
     <div class="hero-inner">
-      <h1>Experienced Concrete Expert</h1>
+      <h1>Reliable Concrete Work Across DFW</h1>
       <p class="lede">
-        Providing top-quality commercial and residential concrete work
-        across the Dallas–Fort Worth area and beyond.
+        Commercial and residential concrete specialists — driveways, slabs, patios, ramps, and more.
       </p>
 
       <div class="cta-row">
@@ -126,52 +132,38 @@ const hero = '/images/hero.jpg';
   </script>
 
   <style>
-    /* === HERO === */
+  /* === HERO === */
     .hero {
-      position: relative;
-      isolation: isolate;
-      border-radius: 12px;
-      overflow: hidden;
-      min-height: 380px;
-      display: grid;
-      place-items: center;
       margin-bottom: 28px;
     }
-
-    .hero-bg {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      filter: saturate(1.05);
+    
+    .hero-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      object-fit: contain;
     }
-
-    .hero::before {
-      content: "";
-      position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(8,12,24,.35), rgba(8,12,24,.55));
-      z-index: 0;
-    }
-
+    
     .hero-inner {
-      position: relative; z-index: 1;
-      max-width: 900px; padding: 32px 16px;
-      text-align: center; color: #fff;
+      text-align: center;
+      padding: 20px 16px 0;
+      max-width: 900px;
+      margin: 0 auto;
     }
-
+    
     .hero h1 {
       margin: 0 0 8px;
       font-size: clamp(2rem, 6vw, 3rem);
       line-height: 1.1;
-      text-shadow: 0 2px 18px rgba(0,0,0,.35);
     }
-
+    
     .lede {
       margin: 0 auto 16px;
       max-width: 70ch;
       font-size: clamp(1rem, 2.6vw, 1.25rem);
-      text-shadow: 0 1px 12px rgba(0,0,0,.25);
     }
-
+    
     /* === HERO CTA BUTTONS === */
     .cta-row {
       display: flex;
@@ -180,25 +172,29 @@ const hero = '/images/hero.jpg';
       flex-wrap: wrap;
       margin-top: 10px;
     }
-
+    
     .btn {
       display: inline-block;
       padding: 12px 18px;
       border-radius: 10px;
       font-weight: 600;
       text-decoration: none;
-      transition: background .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease;
+      transition:
+        background .15s ease,
+        color .15s ease,
+        border-color .15s ease,
+        box-shadow .15s ease;
     }
-
+    
     /* Badge (non-clickable) */
     .btn-badge {
-      background: #1e3a8a; /* dark blue */
+      background: #1e3a8a;
       color: #fff;
       cursor: default;
       user-select: none;
       box-shadow: 0 6px 16px rgba(0,0,0,.25);
     }
-
+    
     /* Regular buttons */
     .btn-primary {
       background: #111827;
@@ -207,7 +203,7 @@ const hero = '/images/hero.jpg';
     .btn-primary:hover {
       background: #0b1220;
     }
-
+    
     .btn-outline {
       border: 1px solid #111827;
       color: #111827;
@@ -217,6 +213,7 @@ const hero = '/images/hero.jpg';
       border-color: #0b1220;
       color: #0b1220;
     }
+
 
     /* === SECTIONS === */
     .content {
