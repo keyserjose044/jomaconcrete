@@ -3,14 +3,62 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 // Add project images to /public/images and list them here:
 const photos = [
-  '/images/job1.jpg',
-  '/images/job2.jpg',
-  '/images/job3.jpg'
+  '/images/1.jpg',
+  '/images/2.jpg',
+  '/images/3.jpg',
+  '/images/4.jpg',
+  '/images/5.jpg',
+  '/images/6.jpg',
+  '/images/7.jpg',
+  '/images/8.jpg',
+  '/images/9.jpg',
+  '/images/10.jpg',
+  '/images/11.jpg',
+  '/images/12.jpg',
+  '/images/13.jpg',
+  '/images/14.jpg',
+  '/images/15.jpg',
+  '/images/16.jpg',
+  '/images/17.jpg',
+  '/images/18.jpg',
+  '/images/19.jpg',
+  '/images/20.jpg',
+  '/images/21.jpg',
+  '/images/22.jpg',
+  '/images/23.jpg',
+  '/images/24.jpg',
+  '/images/25.jpg',
+  '/images/26.jpg',
+  '/images/27.jpg',
+  '/images/28.jpg',
 ];
 ---
+
 <BaseLayout title="Gallery | Joma Concrete">
-  <h1>Recent Work</h1>
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;">
-    {photos.map((src) => <img src={src} alt="Concrete project" style="width:100%;border-radius:10px;" loading="lazy" />)}
+  <h1 style="text-align:center; margin:1.5rem 0;">Recent Work</h1>
+
+  <div
+    style="
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+      margin-top: 1rem;
+    "
+  >
+    {photos.map((src) => (
+      <img
+        src={src}
+        alt="Concrete project"
+        loading="lazy"
+        style="
+          width: 100%;
+          border-radius: 10px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+          transition: transform .2s ease;
+        "
+        onmouseover="this.style.transform='scale(1.01)'"
+        onmouseout="this.style.transform='scale(1)'"
+      />
+    ))}
   </div>
 </BaseLayout>
