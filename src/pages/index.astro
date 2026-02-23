@@ -23,6 +23,9 @@ const hero = '/images_webp/hero.webp';
       alt="JOMA Concrete crew working on a driveway"
       decoding="async"
       loading="eager"
+      fetchpriority="high"
+      width="1600"
+      height="900"
     />
 
     <div class="hero-inner">
@@ -78,11 +81,11 @@ const hero = '/images_webp/hero.webp';
   <!-- ===== GALLERY TEASER ===== -->
   <section id="gallery" class="pair">
     <figure>
-      <img src="/images_webp/2ndchancejob.webp" alt="ADA handicap ramps at 2nd Chance Baptist Church" loading="lazy" />
+      <img src="/images_webp/2ndchancejob.webp" alt="ADA handicap ramps at 2nd Chance Baptist Church" loading="lazy" decoding="async" width="800" height="600" style="width:100%;height:auto;display:block;" />
       <figcaption>ADA handicap ramps at 2nd Chance Baptist Church</figcaption>
     </figure>
     <figure>
-      <img src="/images_webp/retainingwallbtc.webp" alt="8 ft retaining wall and pillars at Big Town Concrete Plant" loading="lazy" />
+      <img src="/images_webp/retainingwallbtc.webp" alt="8 ft retaining wall and pillars at Big Town Concrete Plant" loading="lazy" decoding="async" width="800" height="600" style="width:100%;height:auto;display:block;" />
       <figcaption>8 ft retaining wall and pillars at Big Town Concrete Plant</figcaption>
     </figure>
   </section>
@@ -140,9 +143,10 @@ const hero = '/images_webp/hero.webp';
     .hero-img {
       width: 100%;
       height: auto;
+      aspect-ratio: 16 / 9;
       display: block;
       border-radius: 12px;
-      object-fit: contain;
+      object-fit: cover;
     }
     
     .hero-inner {
